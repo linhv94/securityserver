@@ -1,13 +1,23 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
-app.set('port', process.env.PORT || 8080);
+var router = express.Router();
 
-app.get('/', function(req, res) {
-    res.send("<h3>Hello. Welcome to the most secure website</h3>");
-})
+
+app.set('port', process.env.PORT || 8080);
+app.set('view engine', 'ejs'); // use ejs as the view engine
+app.use('/', router);
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({extended:true}));
+
+router.get('/', function (req, res) {
+    res.render('index.ejs');
+});
 
 app.listen(app.get('port'), function () {
-    console.log('Server is running on port', app.get('port'));
+    console.log(`Server is running on ${app.get('port')}`);
 });
 
 module.exports = app;
